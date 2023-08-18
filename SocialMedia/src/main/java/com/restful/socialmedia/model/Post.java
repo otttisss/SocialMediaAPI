@@ -11,6 +11,7 @@ public class Post {
     private String text;
 
     @ManyToOne
+    @JoinColumn(name = "author_id")
     private User author;
 
     public Long getId() {
