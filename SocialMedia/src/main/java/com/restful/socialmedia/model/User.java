@@ -2,6 +2,7 @@ package com.restful.socialmedia.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,20 @@ public class User {
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<FriendRequest> sentFriendRequest;
+
+    @ManyToMany
+    @JoinTable(name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<User> friends = new HashSet<>();
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
+    }
 
     public Long getId() {
         return id;
