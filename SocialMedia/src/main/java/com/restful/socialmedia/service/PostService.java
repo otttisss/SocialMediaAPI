@@ -3,6 +3,7 @@ package com.restful.socialmedia.service;
 import com.restful.socialmedia.model.Post;
 import com.restful.socialmedia.model.User;
 import com.restful.socialmedia.repository.PostRepository;
+import com.restful.socialmedia.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     public Post createPost(User author, String title, String text) {
@@ -37,7 +40,10 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public List<Post> getPostByAuthor(User author) {
+    public List<Post> getPostByAuthor(Long authorId, User authenticatedUser) {
+        User author = userRepository.findById(authorId)
+                .orElseThrow(() -> new RuntimeException("Author not found"));
+
         return postRepository.findByAuthor(author);
     }
 }
