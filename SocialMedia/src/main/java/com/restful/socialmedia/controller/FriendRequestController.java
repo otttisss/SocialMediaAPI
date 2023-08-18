@@ -8,10 +8,7 @@ import com.restful.socialmedia.service.FriendRequestService;
 import com.restful.socialmedia.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/friend-request")
@@ -34,5 +31,17 @@ public class FriendRequestController {
         FriendRequest friendRequest = friendRequestService.sendFriendRequest(sender, receiver);
 
         return new ResponseEntity<>(friendRequest, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/accept/{requestId}")
+    public ResponseEntity<Void> acceptFriendRequest(@PathVariable Long requestId) {
+        friendRequestService.acceptFriendRequest(requestId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/reject/{requestId}")
+    public ResponseEntity<Void> rejectFriendRequest(@PathVariable Long requestId) {
+        friendRequestService.rejectFriendRequest(requestId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
