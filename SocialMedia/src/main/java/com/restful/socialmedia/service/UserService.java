@@ -28,4 +28,9 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public User getUserByName(String userName) {
+        return userRepository.findByUsername(userName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }
