@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
+
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class ActivityFeedController {
     public ResponseEntity<List<Post>> getUserActivityFeed(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10") int size) {
         User user = authenticatedUserProvider.getUserFromAuthenticatedPrincipal();
-        Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
         List<Post> activityFeed = activityFeedService.getActivityFeed(user, pageable);
 

@@ -4,8 +4,9 @@ import com.restful.socialmedia.model.Post;
 import com.restful.socialmedia.model.User;
 import com.restful.socialmedia.repository.PostRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ActivityFeedService {
     }
 
     public List<Post> getActivityFeed(User user, Pageable pageable) {
-        List<User> friends = new ArrayList<>();
+        List<User> friends = new ArrayList<>(user.getFriends());
         friends.add(user);
 
         return postRepository.findByAuthorIn(friends, pageable);
