@@ -50,6 +50,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain, Authentication authResult) throws IOException {
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
         String token = jwtUtils.generateJwtToken(userDetails);
-        response.addHeader("Authorization", token);
+        response.addHeader("Authorization", "Bearer " + token);
     }
 }

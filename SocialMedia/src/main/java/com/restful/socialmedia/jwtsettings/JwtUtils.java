@@ -4,12 +4,19 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -28,6 +35,19 @@ public class JwtUtils {
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+    }
+
+    public Authentication getAuthenticationFromToken(String token) {
+        Claims claims = extractClaims(token);
+        String username = claims.getSubject();
+        List<String> roles = (List<String>) claims.get("roles");
+
+        List<GrantedAuthority> authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        User principal = new User(username, "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     public boolean validateJwtToken(String token, UserDetails userDetails) {
