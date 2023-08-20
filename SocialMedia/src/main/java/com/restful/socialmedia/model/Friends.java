@@ -3,7 +3,7 @@ package com.restful.socialmedia.model;
 import jakarta.persistence.*;
 
 @Entity
-public class FriendRequest {
+public class Friends {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

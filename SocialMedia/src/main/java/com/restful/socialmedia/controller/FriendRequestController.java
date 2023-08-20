@@ -1,7 +1,7 @@
 package com.restful.socialmedia.controller;
 
 import com.restful.socialmedia.config.AuthenticatedUserProvider;
-import com.restful.socialmedia.model.FriendRequest;
+import com.restful.socialmedia.model.Friends;
 import com.restful.socialmedia.model.FriendsRequests;
 import com.restful.socialmedia.model.User;
 import com.restful.socialmedia.service.FriendRequestService;
@@ -25,12 +25,12 @@ public class FriendRequestController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<FriendRequest> sendFriendRequest(@RequestBody FriendsRequests requests) {
+    public ResponseEntity<Friends> sendFriendRequest(@RequestBody FriendsRequests requests) {
         User sender = authenticatedUserProvider.getUserFromAuthenticatedPrincipal();
         User receiver = userService.getUserByName(requests.getUsername());
-        FriendRequest friendRequest = friendRequestService.sendFriendRequest(sender, receiver);
+        Friends friends = friendRequestService.sendFriendRequest(sender, receiver);
 
-        return new ResponseEntity<>(friendRequest, HttpStatus.CREATED);
+        return new ResponseEntity<>(friends, HttpStatus.CREATED);
     }
 
     @PutMapping("/accept/{requestId}")

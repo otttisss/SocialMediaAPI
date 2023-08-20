@@ -18,10 +18,10 @@ public class User {
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
-    private Set<FriendRequest> receivedFriendRequest;
+    private Set<Friends> receivedFriends;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
-    private Set<FriendRequest> sentFriendRequest;
+    private Set<Friends> sentFriends;
 
     @ManyToMany
     @JoinTable(name = "user_friends",
@@ -77,19 +77,19 @@ public class User {
         this.posts = posts;
     }
 
-    public Set<FriendRequest> getReceivedFriendRequest() {
-        return receivedFriendRequest;
+    public Set<Friends> getReceivedFriendRequest() {
+        return receivedFriends;
     }
 
-    public void setReceivedFriendRequest(Set<FriendRequest> receivedFriendRequest) {
-        this.receivedFriendRequest = receivedFriendRequest;
+    public void setReceivedFriendRequest(Set<Friends> receivedFriends) {
+        this.receivedFriends = receivedFriends;
     }
 
-    public Set<FriendRequest> getSentFriendRequest() {
-        return sentFriendRequest;
+    public Set<Friends> getSentFriendRequest() {
+        return sentFriends;
     }
 
-    public void setSentFriendRequest(Set<FriendRequest> sentFriendRequest) {
-        this.sentFriendRequest = sentFriendRequest;
+    public void setSentFriendRequest(Set<Friends> sentFriends) {
+        this.sentFriends = sentFriends;
     }
 }
