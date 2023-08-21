@@ -38,7 +38,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/auth/login").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -50,16 +50,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password(bCryptPasswordEncoder().encode("user"))
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }
 
     protected void configure(AuthenticationManagerBuilder authManager) throws Exception {
         authManager.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
