@@ -4,10 +4,13 @@ import com.restful.socialmedia.model.Post;
 import com.restful.socialmedia.model.User;
 import com.restful.socialmedia.model.PostRequest;
 import com.restful.socialmedia.service.PostService;
+import com.restful.socialmedia.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import com.restful.socialmedia.config.AuthenticatedUserProvider;
 
 import java.util.List;
 
@@ -15,19 +18,24 @@ import java.util.List;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
-    private final AuthenticatedUserProvider authenticatedUserProvider;
-
-    public PostController(PostService postService, AuthenticatedUserProvider authenticatedUserProvider) {
+    private final UserService userService;
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
-        this.authenticatedUserProvider = authenticatedUserProvider;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
     public ResponseEntity<Post> createPost(@RequestBody PostRequest request) {
-        User author = authenticatedUserProvider.getUserFromAuthenticatedPrincipal();
-        Post post = postService.createPost(author, request.getTitle(), request.getText());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User author = userService.getUserByName(userDetails.getUsername());
+            Post post = postService.createPost(author, request.getTitle(), request.getText());
 
-        return new ResponseEntity<>(post, HttpStatus.CREATED);
+            return new ResponseEntity<>(post, HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/{postId}")
@@ -46,9 +54,15 @@ public class PostController {
 
     @GetMapping("/author/{authorId}")
     public ResponseEntity<List<Post>> getPostsByAuthor(@PathVariable Long authorId) {
-        User author = authenticatedUserProvider.getUserFromAuthenticatedPrincipal();
-        List<Post> posts = postService.getPostByAuthor(authorId, author);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User author = userService.getUserByName(userDetails.getUsername());
+            List<Post> posts = postService.getPostByAuthor(authorId, author);
 
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }
