@@ -65,4 +65,11 @@ public class PostController {
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("/getPosts")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> allPosts = postService.getAllPosts();
+
+        return new ResponseEntity<>(allPosts, HttpStatus.OK);
+    }
 }

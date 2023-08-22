@@ -48,4 +48,8 @@ public class PostService {
 
         return postRepository.findByAuthor(author);
     }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
 }
