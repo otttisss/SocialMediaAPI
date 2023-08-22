@@ -30,7 +30,7 @@ public class PostController {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User author = userService.getUserByName(userDetails.getUsername());
-            Post post = postService.createPost(author, request.getTitle(), request.getText());
+            Post post = postService.createPost(author, request.getTitle(), request.getText(),request.getImagePath());
 
             return new ResponseEntity<>(post, HttpStatus.CREATED);
         }
@@ -40,7 +40,7 @@ public class PostController {
 
     @PutMapping("/{postId}")
     public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostRequest request) {
-        postService.updatePost(postId, request.getTitle(), request.getText());
+        postService.updatePost(postId, request.getTitle(), request.getText(), request.getImagePath());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
