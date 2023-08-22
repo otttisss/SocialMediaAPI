@@ -18,20 +18,22 @@ public class PostService {
         this.userRepository = userRepository;
     }
 
-    public Post createPost(User author, String title, String text) {
+    public Post createPost(User author, String title, String text, List<String> imagePath) {
         Post post = new Post();
         post.setAuthor(author);
         post.setTitle(title);
         post.setText(text);
+        post.setImagePath(imagePath);
 
         return postRepository.save(post);
     }
 
-    public void updatePost(Long postId, String newTitle, String newText) {
+    public void updatePost(Long postId, String newTitle, String newText, List<String> imagePath) {
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new RuntimeException("Post not found")) ;
         post.setTitle(newTitle);
         post.setText(newText);
+        post.setImagePath(imagePath);
 
         postRepository.save(post);
     }
