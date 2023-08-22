@@ -2,6 +2,9 @@ package com.restful.socialmedia.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Post {
     @Id
@@ -9,10 +12,20 @@ public class Post {
     private Long id;
     private String title;
     private String text;
+    @ElementCollection
+    private List<String> imagePath = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    public List<String> getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(List<String> imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public Long getId() {
         return id;
