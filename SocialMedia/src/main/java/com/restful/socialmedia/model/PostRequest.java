@@ -1,12 +1,23 @@
 package com.restful.socialmedia.model;
 
+import java.util.List;
+
 public class PostRequest {
     private String title;
     private String text;
+    private List<String> imagePath;
 
     public PostRequest(String title, String text) {
         this.title = title;
         this.text = text;
+    }
+
+    public List<String> getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(List<String> imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {
