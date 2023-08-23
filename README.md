@@ -48,8 +48,10 @@ This project aims to develop a RESTful API for a social media platform that allo
 2. Clone the repository.
 3. Configure your database settings in application.properties.
 4. Build and run the project using Maven:
-   
-'mvn spring-boot:run'
+
+```   
+mvn spring-boot:run
+```
 
 5. Access the API documentation (Swagger UI) at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui/index.html).
 
