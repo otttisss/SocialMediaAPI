@@ -29,9 +29,9 @@ This project aims to develop a RESTful API for a social media platform that allo
   
 ## Technologies and Tools
 
-- Programming Language: Java
-- Framework: Spring (Spring Boot recommended)
-- Database: PostgreSQL or MySQL
+- Programming Language: Java 1.8 and higher (was tested on Java 17)
+- Framework: Spring, Spring Boot
+- Database: PostgreSQL
 - Authentication and Authorization: Spring Security
 - API Documentation: Swagger or OpenAPI
 
