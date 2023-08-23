@@ -20,6 +20,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Collections;
 
+// Исходя из последней ошибки, проблема заключается в том, что
+// Spring контекст не может найти бин типа com.restful.socialmedia.service.UserService для инъекции в UserController.
+// Но бины присутствуют и я не понимаю в чем проблема. Аналогичная ситуация с UserControllerTest.
+// Вполне возможно бизнес логика нарушена, но никаких циклических ошибок при spring boot runner нет.
+
 @WebMvcTest(PostController.class)
 public class PostControllerTest {
 
