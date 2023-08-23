@@ -2,7 +2,6 @@ package com.restful.socialmedia.service;
 
 import com.restful.socialmedia.model.User;
 import com.restful.socialmedia.repository.UserRepository;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

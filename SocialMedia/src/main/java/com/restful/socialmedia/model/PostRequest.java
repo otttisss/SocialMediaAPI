@@ -7,9 +7,10 @@ public class PostRequest {
     private String text;
     private List<String> imagePath;
 
-    public PostRequest(String title, String text) {
+    public PostRequest(String title, String text, List<String> imagePath) {
         this.title = title;
         this.text = text;
+        this.imagePath = imagePath;
     }
 
     public List<String> getImagePath() {
